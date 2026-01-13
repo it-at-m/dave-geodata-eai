@@ -279,14 +279,15 @@
 
     <repositories>
         <repository>
-            <id>central</id>
-            <name>central</name>
-            <url>https://repo1.maven.org/maven2/</url>
-        </repository>
-        <repository>
             <id>osgeo</id>
-            <name>geotools</name>
+            <name>OSGeo Release Repository</name>
             <url>https://repo.osgeo.org/repository/release/</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
         </repository>
     </repositories>
 
