@@ -1,0 +1,354 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "MobidaM - Detektor-Messwerte-EAI",
+    "description": "MobidaM - Mobilitätsdatenplattform der LH München",
+    "version": "0.0.1-SNAPSHOT"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080",
+      "description": "Generated server url"
+    }
+  ],
+  "security": [
+    {
+      "oauth": []
+    }
+  ],
+  "paths": {
+    "/v1/messwerte/timerange": {
+      "get": {
+        "tags": [
+          "mq-messwerte-controller"
+        ],
+        "summary": "Get messwerte within a time range",
+        "operationId": "loadMesswerteTimeRange",
+        "parameters": [
+          {
+            "name": "messquerschnitte",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "int64"
+              }
+            }
+          },
+          {
+            "name": "datumVon",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "datumBis",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "uhrzeitVon",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "uhrzeitBis",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "tagestypen",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "WERKTAG_DI_MI_DO",
+                  "WERKTAG_MO_FR",
+                  "SAMSTAG",
+                  "SONNTAG_FEIERTAG",
+                  "WERKTAG_FERIEN"
+                ]
+              }
+            }
+          },
+          {
+            "name": "fzTypen",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "ANZAHL_PKW",
+                  "ANZAHL_PKWA",
+                  "ANZAHL_LKW",
+                  "ANZAHL_LKWA",
+                  "ANZAHL_KRAD",
+                  "ANZAHL_RAD",
+                  "ANZAHL_LFW",
+                  "ANZAHL_SATTEL_KFZ",
+                  "ANZAHL_BUS",
+                  "ANZAHL_NK_KFZ",
+                  "SUMME_ALLE_PKW",
+                  "SUMME_LASTZUG",
+                  "SUMME_GUETERVERKEHR",
+                  "SUMME_SCHWERVERKEHR",
+                  "SUMME_KRAFTFAHRZEUGVERKEHR"
+                ]
+              }
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "minimum": 0,
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 100000
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "200": {
+            "description": "Found messwerte",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MqMesswerteDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid parameters"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "read"
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/messwerte/fullrange": {
+      "get": {
+        "tags": [
+          "mq-messwerte-controller"
+        ],
+        "summary": "Get messwerte without a time range",
+        "operationId": "loadMesswerteFullRange",
+        "parameters": [
+          {
+            "name": "messquerschnitte",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "int64"
+              }
+            }
+          },
+          {
+            "name": "datumVon",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "datumBis",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "tagestypen",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "WERKTAG_DI_MI_DO",
+                  "WERKTAG_MO_FR",
+                  "SAMSTAG",
+                  "SONNTAG_FEIERTAG",
+                  "WERKTAG_FERIEN"
+                ]
+              }
+            }
+          },
+          {
+            "name": "fzTypen",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "ANZAHL_PKW",
+                  "ANZAHL_PKWA",
+                  "ANZAHL_LKW",
+                  "ANZAHL_LKWA",
+                  "ANZAHL_KRAD",
+                  "ANZAHL_RAD",
+                  "ANZAHL_LFW",
+                  "ANZAHL_SATTEL_KFZ",
+                  "ANZAHL_BUS",
+                  "ANZAHL_NK_KFZ",
+                  "SUMME_ALLE_PKW",
+                  "SUMME_LASTZUG",
+                  "SUMME_GUETERVERKEHR",
+                  "SUMME_SCHWERVERKEHR",
+                  "SUMME_KRAFTFAHRZEUGVERKEHR"
+                ]
+              }
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "minimum": 0,
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 100000
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "200": {
+            "description": "Found messwerte",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MqMesswerteDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid parameters"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "read"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "MessquerschnitteDto": {
+        "type": "object",
+        "properties": {
+          "mqId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "intervalle": {
+            "type": "array",
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "MqMesswerteDto": {
+        "type": "object",
+        "properties": {
+          "version": {
+            "type": "string"
+          },
+          "format": {
+            "type": "string"
+          },
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "messquerschnitte": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MessquerschnitteDto"
+            }
+          }
+        }
+      }
+    }
+  }
+}
