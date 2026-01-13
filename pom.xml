@@ -278,6 +278,7 @@
     </scm>
 
     <repositories>
+        <!-- Die Geotools können nicht standardmäßig über das Maven Repo bezogen werden. -->
         <repository>
             <id>osgeo</id>
             <name>OSGeo Release Repository</name>
