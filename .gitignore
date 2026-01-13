@@ -29,5 +29,19 @@ dist/
 nbdist/
 .nb-gradle/
 
-node_modules/
-package-lock.json
+/index/default/de.muenchen.dave.domain.Zaehlstelle/
+/index/default/de.muenchen.dave.domain.Zaehlung/
+/index/default/
+/src/main/resources/pdf/templates/test.mustache
+/src/test/java/de/muenchen/dave/services/pdfgenerator/MustacheTest.java
+
+# helps for local environment variables
+.env
+
+# helps local on dev computer to manage different java-versions (see more: https://www.jenv.be/)
+.java-version
+
+# do not check in local application profile yml
+src/**/application-local.yml
+/.openapi-generator/
+/*_logfile
