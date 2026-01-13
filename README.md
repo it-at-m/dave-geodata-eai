@@ -1,5 +1,7 @@
 # dave-geodata-eai
 
+Die DAVe Geodaten-EAI ist die Schnittstelle der Fachanwendung DAVe zum Geoinformationssystemen und zur Mobilitätsplattform der LHM.
+
 ## Swagger
 
 API-Docs: http://localhost:8088/v3/api-docs
