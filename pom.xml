@@ -4,7 +4,7 @@
 
     <groupId>de.muenchen.dave</groupId>
     <artifactId>dave-geodaten-eai</artifactId>
-    <version>5.0.0-SNAPSHOT</version>
+    <version>5.1.0</version>
     <name>dave_geodata_eai</name>
     <description>EAI für Geodatenabfragen</description>
 
@@ -273,7 +273,7 @@
     <scm>
         <connection>scm:git:https://github.com/it-at-m/dave-geodata-eai.git</connection>
         <url>https://github.com/it-at-m/dave-geodata-eai.git</url>
-        <tag>HEAD</tag>
+        <tag>dave-geodaten-eai-5.1.0</tag>
     </scm>
 
     <repositories>
