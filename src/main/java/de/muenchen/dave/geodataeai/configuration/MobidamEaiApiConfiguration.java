@@ -24,7 +24,7 @@ public class MobidamEaiApiConfiguration {
     public int maxInMemorySizeBytes;
 
     @Bean
-    @Profile("no-security")
+    @Profile("no-security-messwerte-eai")
     public MqMesswerteControllerApi mqMesswerteControllerApi() {
         final var webClient = WebClient.builder()
                 .codecs(codecs -> {
@@ -37,7 +37,7 @@ public class MobidamEaiApiConfiguration {
     }
 
     @Bean
-    @Profile("!no-security")
+    @Profile("!no-security-messwerte-eai")
     public MqMesswerteControllerApi securedMqMesswerteControllerApi(
             final ClientRegistrationRepository clientRegistrationRepository,
             final OAuth2AuthorizedClientService authorizedClientService) {
