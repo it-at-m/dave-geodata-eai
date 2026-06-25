@@ -3,9 +3,12 @@ package de.muenchen.dave.geodataeai.domain.service.interval;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
-import de.muenchen.dave.geodataeai.domain.model.enums.IntervalSize;
-import de.muenchen.dave.geodataeai.domain.model.messwerte.MesswertRequestModel;
-import java.time.LocalTime;
+import de.muenchen.dave.geodataeai.domain.model.messwerte.IntervalModel;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,46 +28,24 @@ class IntervalServiceTest {
     }
 
     @Test
-    void getIncludedMeasuringDays() {
-        final MesswertRequestModel request = new MesswertRequestModel();
-        request.setIntervalInMinutes(IntervalSize.INTERVAL_15);
-        request.setStartTime(LocalTime.of(0, 0, 0));
-        request.setEndTime(LocalTime.of(6, 0, 0));
-        int sizeOfAllAggregatesIntervals = 96;
-        int sizeOfAggregatedIntervalsByMqId = 2;
-        assertThat(intervalService.getIncludedMeasuringDays(request, sizeOfAllAggregatesIntervals, sizeOfAggregatedIntervalsByMqId), is(2));
-
-        request.setIntervalInMinutes(IntervalSize.INTERVAL_30);
-        assertThat(intervalService.getIncludedMeasuringDays(request, sizeOfAllAggregatesIntervals, sizeOfAggregatedIntervalsByMqId), is(4));
-
-        request.setIntervalInMinutes(IntervalSize.INTERVAL_60);
-        assertThat(intervalService.getIncludedMeasuringDays(request, sizeOfAllAggregatesIntervals, sizeOfAggregatedIntervalsByMqId), is(8));
-
-        request.setIntervalInMinutes(IntervalSize.INTERVAL_15);
-        request.setStartTime(LocalTime.of(0, 0, 0));
-        request.setEndTime(LocalTime.MAX);
-        sizeOfAllAggregatesIntervals = 7392;
-        sizeOfAggregatedIntervalsByMqId = 1;
-        assertThat(intervalService.getIncludedMeasuringDays(request, sizeOfAllAggregatesIntervals, sizeOfAggregatedIntervalsByMqId), is(77));
-
-        request.setIntervalInMinutes(IntervalSize.INTERVAL_30);
-        request.setStartTime(LocalTime.of(15, 0, 0));
-        request.setEndTime(LocalTime.of(19, 0, 0));
-        sizeOfAllAggregatesIntervals = 48;
-        sizeOfAggregatedIntervalsByMqId = 2;
-        assertThat(intervalService.getIncludedMeasuringDays(request, sizeOfAllAggregatesIntervals, sizeOfAggregatedIntervalsByMqId), is(3));
-
-        request.setIntervalInMinutes(IntervalSize.INTERVAL_60);
-        request.setStartTime(LocalTime.of(19, 0, 0));
-        request.setEndTime(LocalTime.MAX);
-        sizeOfAllAggregatesIntervals = 90;
-        assertThat(intervalService.getIncludedMeasuringDays(request, sizeOfAllAggregatesIntervals, sizeOfAggregatedIntervalsByMqId), is(9));
-
-        request.setIntervalInMinutes(IntervalSize.INTERVAL_15);
-        request.setStartTime(LocalTime.of(23, 0, 0));
-        request.setEndTime(LocalTime.MAX);
-        sizeOfAllAggregatesIntervals = 12;
-        sizeOfAggregatedIntervalsByMqId = 1;
-        assertThat(intervalService.getIncludedMeasuringDays(request, sizeOfAllAggregatesIntervals, sizeOfAggregatedIntervalsByMqId), is(3));
+    void testCountIncludedMeasuringDays() {
+        final Map<Integer, List<IntervalModel>> aggregatedIntervalsByMqId = new HashMap<>();
+        List<IntervalModel> listMq1 = new ArrayList<>();
+        for (int i1 = 1; i1 <= 15; i1++) {
+            var model = new IntervalModel();
+            model.setMqId(1);
+            model.setDatumUhrzeitVon(LocalDateTime.of(2026, 3, i1, 0, 0, 0));
+            listMq1.add(model);
+        }
+        aggregatedIntervalsByMqId.put(1, listMq1);
+        List<IntervalModel> listMq2 = new ArrayList<>();
+        for (int i2 = 16; i2 <= 30; i2++) {
+            var model = new IntervalModel();
+            model.setMqId(2);
+            model.setDatumUhrzeitVon(LocalDateTime.of(2026, 3, i2, 0, 0, 0));
+            listMq2.add(model);
+        }
+        aggregatedIntervalsByMqId.put(2, listMq2);
+        assertThat(intervalService.countIncludedMeasuringDays(aggregatedIntervalsByMqId), is(30));
     }
 }
