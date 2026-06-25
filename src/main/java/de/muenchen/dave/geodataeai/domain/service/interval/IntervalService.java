@@ -7,10 +7,12 @@ import de.muenchen.dave.geodataeai.domain.model.messwerte.IntervalResponseModel;
 import de.muenchen.dave.geodataeai.domain.model.messwerte.IntervalsForMqIdModel;
 import de.muenchen.dave.geodataeai.domain.model.messwerte.MesswertRequestModel;
 import de.muenchen.dave.geodataeai.infrastructure.exception.FeatureRequestFailedException;
-import java.time.LocalTime;
+import java.time.LocalDate;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -45,8 +47,11 @@ public class IntervalService {
      */
     public IntervalResponseModel getIntervals(final MesswertRequestModel request) throws FeatureRequestFailedException {
         try {
-            final var aggregatedIntervalsByMqId = intervalAggregationService
+            final Map<Integer, List<IntervalModel>> aggregatedIntervalsByMqId = intervalAggregationService
                     .getAggregatedIntervalsAccordingRequestedIntervalsizeForAllMqIdsGroupedByMqId(request);
+
+            final var intervalResponse = new IntervalResponseModel();
+            intervalResponse.setIncludedMeasuringDays(countIncludedMeasuringDays(aggregatedIntervalsByMqId));
 
             // Es sind alle Messquerschnitt der Messtelle enthalten. Wird z.B. für den Belastungsplan benötigt.
             final var allAggregatesIntervals = getAllIntervals(aggregatedIntervalsByMqId);
@@ -98,16 +103,9 @@ public class IntervalService {
                     .sorted(Comparator.comparing(IntervalModel::getDatumUhrzeitVon))
                     .toList();
 
-            final var intervalResponse = new IntervalResponseModel();
             intervalResponse.setMeanOfSummedUpDailyIntervalsForEachMessquerschnittOverMesstage(meanOfSummedUpDailyIntervalsForEachMessquerschnittOverMesstage);
             intervalResponse.setMeanOfSummedUpMessquerschnitteForEachIntervalOverMesstage(meanOfSummedUpMessquerschnitteForEachIntervalOverMesstage);
             intervalResponse.setMeanForEachIntervalAndEachMessquerschnittOverMesstage(meanForEachIntervalAndEachMessquerschnittOverMesstage);
-            intervalResponse.setIncludedMeasuringDays(0);
-
-            if (!allAggregatesIntervals.isEmpty() && !selectedAggregatesIntervals.isEmpty()) {
-                final var includedMeasuringDays = getIncludedMeasuringDays(request, allAggregatesIntervals.size(), aggregatedIntervalsByMqId.size());
-                intervalResponse.setIncludedMeasuringDays(includedMeasuringDays);
-            }
 
             return intervalResponse;
         } catch (Exception exception) {
@@ -117,21 +115,18 @@ public class IntervalService {
         }
     }
 
-    protected int getIncludedMeasuringDays(
-            final MesswertRequestModel request,
-            final int sizeOfAllAggregatesIntervals,
-            final int sizeOfAggregatedIntervalsByMqId) {
-        final var intervalsPerHour = request.getIntervalInMinutes().getIntervalsPerDay() / 24;
-        var endTimeHour = request.getEndTime().getHour();
-
-        // Wenn es sich um einen ganzen Tag handelt, dann hat dieser 24 Stunden
-        // LocalTime gibt dies aber mit LocalTime.MAX (23:59:59.999999999) an, daher muss der
-        // Stunden-Wert um 1 erhöht werden.
-        if (LocalTime.MAX.equals(request.getEndTime())) {
-            endTimeHour++;
-        }
-        final var numberOfRelevantIntervals = (endTimeHour - request.getStartTime().getHour()) * intervalsPerHour;
-        return sizeOfAllAggregatesIntervals / sizeOfAggregatedIntervalsByMqId / numberOfRelevantIntervals;
+    /**
+     * Es werden die Messtage über alle vorkommenden,
+     * einzigartigen Datümer der Intervalle gezählt.
+     */
+    protected int countIncludedMeasuringDays(final Map<Integer, List<IntervalModel>> aggregatedIntervalsByMqId) {
+        if (aggregatedIntervalsByMqId.isEmpty())
+            return 0;
+        Set<LocalDate> uniqueDates = aggregatedIntervalsByMqId.values().stream()
+                .flatMap(Collection::stream)
+                .map(model -> model.getDatumUhrzeitVon().toLocalDate())
+                .collect(Collectors.toSet());
+        return uniqueDates.size();
     }
 
     protected List<IntervalModel> getAllIntervals(final Map<Integer, List<IntervalModel>> intervalsByMqId) {
