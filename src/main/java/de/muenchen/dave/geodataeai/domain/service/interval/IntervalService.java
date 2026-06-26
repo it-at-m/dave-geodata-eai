@@ -116,12 +116,15 @@ public class IntervalService {
     }
 
     /**
-     * Es werden die Messtage über alle vorkommenden,
-     * einzigartigen Datümer der Intervalle gezählt.
+     * Ermittelt die Anzahl der in den aggregierten Intervallen enthaltenen Messtage.
+     * Dabei werden über alle Messquerschnitte hinweg die eindeutigen Kalendertage
+     * anhand von {`@code` datumUhrzeitVon} gezählt. Mehrere Intervalle mit demselben
+     * Kalendertag werden dabei nur einmal berücksichtigt.
+     * <p>
+     * @param aggregatedIntervalsByMqId Map von Messquerschnitt-Ids auf deren aggregierte Intervalle
+     * @return Anzahl der eindeutigen Messtage; {`@code` 0}, wenn keine Intervalle vorhanden sind
      */
     protected int countIncludedMeasuringDays(final Map<Integer, List<IntervalModel>> aggregatedIntervalsByMqId) {
-        if (aggregatedIntervalsByMqId.isEmpty())
-            return 0;
         Set<LocalDate> uniqueDates = aggregatedIntervalsByMqId.values().stream()
                 .flatMap(Collection::stream)
                 .map(model -> model.getDatumUhrzeitVon().toLocalDate())
