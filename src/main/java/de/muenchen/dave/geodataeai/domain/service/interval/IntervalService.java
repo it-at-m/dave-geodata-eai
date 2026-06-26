@@ -121,6 +121,7 @@ public class IntervalService {
      * anhand von {`@code` datumUhrzeitVon} gezählt. Mehrere Intervalle mit demselben
      * Kalendertag werden dabei nur einmal berücksichtigt.
      * <p>
+     *
      * @param aggregatedIntervalsByMqId Map von Messquerschnitt-Ids auf deren aggregierte Intervalle
      * @return Anzahl der eindeutigen Messtage; {`@code` 0}, wenn keine Intervalle vorhanden sind
      */
