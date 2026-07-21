@@ -4,7 +4,7 @@
 
     <groupId>de.muenchen.dave</groupId>
     <artifactId>dave-geodaten-eai</artifactId>
-    <version>9.0.1-SNAPSHOT</version>
+    <version>10.0.1-SNAPSHOT</version>
     <name>dave_geodata_eai</name>
     <description>EAI für Geodatenabfragen</description>
 
@@ -13,8 +13,8 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <maven.compiler.release>${java.version}</maven.compiler.release>
-        <spring.boot.version>3.5.4</spring.boot.version>
-        <spring.cloud.version>2025.0.0</spring.cloud.version>
+        <spring.boot.version>3.5.16</spring.boot.version>
+        <spring.cloud.version>2025.0.3</spring.cloud.version>
         <logstash.encoder>8.1</logstash.encoder>
         <apache.commons.collections4>4.5.0</apache.commons.collections4>
         <apache.commons.io>2.21.0</apache.commons.io>
@@ -30,10 +30,10 @@
         <maven-surefire-plugin.version>3.5.3</maven-surefire-plugin.version>
         <maven.compiler.plugin.version>3.14.0</maven.compiler.plugin.version>
         <!-- Version muss mit der in den spring-boot-dependencies bereitgestellten Lombok-Version übereinstimmen -->
-        <org.projectlombok.lombok.version>1.18.38</org.projectlombok.lombok.version>
+        <org.projectlombok.lombok.version>1.18.46</org.projectlombok.lombok.version>
         <org.projectlombok.mapstructbinding.version>0.2.0</org.projectlombok.mapstructbinding.version>
         <mapstruct.version>1.6.3</mapstruct.version>
-        <geotools.version>33.1</geotools.version>
+        <geotools.version>33.2</geotools.version>
         <openapi-generator-version>7.13.0</openapi-generator-version>
 
         <!-- Linting & Formatting -->
