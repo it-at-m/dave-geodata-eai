@@ -34,7 +34,7 @@
         <org.projectlombok.mapstructbinding.version>0.2.0</org.projectlombok.mapstructbinding.version>
         <mapstruct.version>1.6.3</mapstruct.version>
         <geotools.version>33.2</geotools.version>
-        <openapi-generator-version>7.13.0</openapi-generator-version>
+        <openapi-generator-version>7.25.0</openapi-generator-version>
 
         <!-- Linting & Formatting -->
         <spotless-maven-plugin.version>2.44.5</spotless-maven-plugin.version>
@@ -444,11 +444,13 @@
                                 <legacyDiscriminatorBehavior>false</legacyDiscriminatorBehavior>
                                 <dateLibrary>java8-localdatetime</dateLibrary>
                                 <useJakartaEe>true</useJakartaEe>
+                                <useSpringBoot3>false</useSpringBoot3>
+                                <useSpringBoot4>true</useSpringBoot4>
                             </configOptions>
 
                             <globalProperties>
                                 <supportingFiles>
-                                    ApiClient.java,JavaTimeFormatter.java,Authentication.java,OAuth.java,ApiKeyAuth.java,HttpBasicAuth.java,HttpBearerAuth.java,RFC3339DateFormat.java
+                                    ApiClient.java,JavaTimeFormatter.java,Authentication.java,OAuth.java,ApiKeyAuth.java,HttpBasicAuth.java,HttpBearerAuth.java,RFC3339DateFormat.java,ExceptionProvider.java
                                 </supportingFiles>
                             </globalProperties>
                         </configuration>

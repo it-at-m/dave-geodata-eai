@@ -22,7 +22,8 @@ public class NoSecurityConfiguration {
     public SecurityFilterChain securityFilterChain(final HttpSecurity http) throws Exception {
         return http
                 .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
-                .authorizeHttpRequests(request -> request.requestMatchers(PathPatternRequestMatcher.withDefaults().matcher("/images/**")).permitAll().anyRequest().permitAll())
+                .authorizeHttpRequests(
+                        request -> request.requestMatchers(PathPatternRequestMatcher.withDefaults().matcher("/images/**")).permitAll().anyRequest().permitAll())
                 .csrf(AbstractHttpConfigurer::disable)
                 .build();
     }
