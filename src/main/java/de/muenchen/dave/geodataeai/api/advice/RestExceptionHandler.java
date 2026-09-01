@@ -4,7 +4,6 @@ import de.muenchen.dave.geodataeai.api.dto.enums.InformationResponseType;
 import de.muenchen.dave.geodataeai.api.dto.error.InformationResponseDto;
 import de.muenchen.dave.geodataeai.domain.exception.GeometryOperationFailedException;
 import de.muenchen.dave.geodataeai.infrastructure.exception.FeatureRequestFailedException;
-import io.micrometer.tracing.Tracer;
 import jakarta.validation.ConstraintViolationException;
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -12,7 +11,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.ConversionNotSupportedException;
 import org.springframework.beans.TypeMismatchException;
@@ -50,8 +48,6 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @RestControllerAdvice
 @RequiredArgsConstructor
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
-
-    private final Tracer tracer;
 
     @ExceptionHandler(GeometryOperationFailedException.class)
     public ResponseEntity<Object> handleGeometryOperationFailedException(final GeometryOperationFailedException ex) {
@@ -431,17 +427,11 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return errorResponseDto;
     }
 
-    protected InformationResponseDto createInformationResponseDtoWithTraceInformationAndTimestampAndOriginalExceptionName(
-            final Exception ex) {
-        final var span = this.tracer.currentSpan();
+    protected InformationResponseDto createInformationResponseDtoWithTraceInformationAndTimestampAndOriginalExceptionName(final Exception ex) {
         final var errorResponseDto = new InformationResponseDto();
         errorResponseDto.setType(InformationResponseType.ERROR);
         errorResponseDto.setTimestamp(LocalDateTime.now());
         errorResponseDto.setOriginalException(ex.getClass().getSimpleName());
-        if (ObjectUtils.isNotEmpty(span)) {
-            errorResponseDto.setTraceId(span.context().traceId());
-            errorResponseDto.setSpanId(span.context().spanId());
-        }
         return errorResponseDto;
     }
 }

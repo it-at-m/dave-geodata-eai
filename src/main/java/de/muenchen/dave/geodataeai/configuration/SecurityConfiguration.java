@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -45,15 +46,20 @@ public class SecurityConfiguration {
                 .concat(
                         Stream.of(
                                 // allow access to /actuator/info
-                                PathPatternRequestMatcher.withDefaults().matcher("/actuator/info"),
+                                PathPatternRequestMatcher.withDefaults().matcher(HttpMethod.GET, "/actuator/info"),
                                 // allow access to /actuator/health for OpenShift Health Check
-                                PathPatternRequestMatcher.withDefaults().matcher("/actuator/health"),
+                                PathPatternRequestMatcher.withDefaults().matcher(HttpMethod.GET, "/actuator/health"),
                                 // allow access to /actuator/health/liveness for OpenShift Liveness Check
-                                PathPatternRequestMatcher.withDefaults().matcher("/actuator/health/liveness"),
+                                PathPatternRequestMatcher.withDefaults().matcher(HttpMethod.GET, "/actuator/health/liveness"),
                                 // allow access to /actuator/health/readiness for OpenShift Readiness Check
-                                PathPatternRequestMatcher.withDefaults().matcher("/actuator/health/readiness"),
+                                PathPatternRequestMatcher.withDefaults().matcher(HttpMethod.GET, "/actuator/health/readiness"),
                                 // allow access to /actuator/metrics for Prometheus monitoring in OpenShift
-                                PathPatternRequestMatcher.withDefaults().matcher("/actuator/metrics")),
+                                PathPatternRequestMatcher.withDefaults().matcher(HttpMethod.GET, "/actuator/metrics"),
+                                // allow access to SBOM endpoints
+                                PathPatternRequestMatcher.withDefaults().matcher(HttpMethod.GET, "/actuator/sbom"),
+                                PathPatternRequestMatcher.withDefaults().matcher(HttpMethod.GET, "/actuator/sbom/application"),
+                                // allow access to /actuator/metrics for Prometheus monitoring in OpenShift
+                                PathPatternRequestMatcher.withDefaults().matcher(HttpMethod.GET, "/actuator/metrics")),
                         Arrays.stream(whitelist).map(whitelistUrl -> PathPatternRequestMatcher.withDefaults().matcher(whitelistUrl)))
                 .toArray(PathPatternRequestMatcher[]::new);
     }

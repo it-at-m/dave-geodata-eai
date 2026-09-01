@@ -35,6 +35,13 @@ management:
     env:
       enabled: true
 
+# Enable swagger-ui
+springdoc:
+  swagger-ui:
+    enabled: true
+  api-docs:
+    enabled: true
+
 info.application.name: @project.artifactId@
 info.application.version: @project.version@
 info.application.commitHash: ${buildNumber}
