@@ -19,7 +19,7 @@
         <apache.commons.collections4>4.5.0</apache.commons.collections4>
         <apache.commons.io>2.21.0</apache.commons.io>
         <apache.commons.lang3>3.20.0</apache.commons.lang3>
-        <springdoc.version>2.7.0</springdoc.version>
+        <springdoc.version>2.9.0</springdoc.version>
         <!-- SonarQube -->
         <sonar.scanner.version>3.9.0.2155</sonar.scanner.version>
         <!-- TestCoverage -->
@@ -33,7 +33,7 @@
         <org.projectlombok.lombok.version>1.18.46</org.projectlombok.lombok.version>
         <org.projectlombok.mapstructbinding.version>0.2.0</org.projectlombok.mapstructbinding.version>
         <mapstruct.version>1.6.3</mapstruct.version>
-        <geotools.version>33.2</geotools.version>
+        <geotools.version>35.1</geotools.version>
         <openapi-generator-version>7.25.0</openapi-generator-version>
 
         <!-- Linting & Formatting -->
@@ -265,7 +265,7 @@
         <dependency>
             <groupId>org.openapitools</groupId>
             <artifactId>jackson-databind-nullable</artifactId>
-            <version>0.2.6</version>
+            <version>0.2.11</version>
         </dependency>
 
     </dependencies>
