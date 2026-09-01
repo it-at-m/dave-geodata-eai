@@ -15,6 +15,7 @@ import lombok.Data;
 import org.apache.commons.collections4.ListUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.mapstruct.Context;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -179,7 +180,7 @@ public abstract class MesswerteResponseDomainMapper {
         }
 
         private BigDecimal getZaehlwertOrDefaultToNull(final String zaehlwert) {
-            return Objects.isNull(zaehlwert) || StringUtils.equals(zaehlwert, MISSING_ATTRIBUTE_VALUE)
+            return Objects.isNull(zaehlwert) || Strings.CS.equals(zaehlwert, MISSING_ATTRIBUTE_VALUE)
                     ? null
                     : BigDecimal.valueOf(Long.parseLong(zaehlwert));
         }

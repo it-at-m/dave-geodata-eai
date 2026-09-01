@@ -75,7 +75,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<Object> handleConstraintViolationException(final ConstraintViolationException ex) {
-        final var httpStatus = HttpStatus.UNPROCESSABLE_ENTITY;
+        final var httpStatus = HttpStatus.UNPROCESSABLE_CONTENT;
         final var errorResponseDto = this.createInformationResponseDtoWithTraceInformationAndTimestampAndOriginalExceptionNameAndStatusAndMessage(
                 ex,
                 httpStatus.value(),

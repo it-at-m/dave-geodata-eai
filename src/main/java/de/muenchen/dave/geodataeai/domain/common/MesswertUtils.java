@@ -76,7 +76,7 @@ public final class MesswertUtils {
         if (ObjectUtils.anyNotNull(values)) {
             summedValue = Stream.of(values)
                     .reduce(BigDecimal.ZERO,
-                            (value1, value2) -> ObjectUtils.defaultIfNull(value1, BigDecimal.ZERO).add(ObjectUtils.defaultIfNull(value2, BigDecimal.ZERO)));
+                            (value1, value2) -> ObjectUtils.getIfNull(value1, BigDecimal.ZERO).add(ObjectUtils.getIfNull(value2, BigDecimal.ZERO)));
         }
         return summedValue;
     }

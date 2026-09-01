@@ -92,7 +92,7 @@ class RestExceptionHandlerTest {
 
         final ResponseEntity<Object> response = this.restExceptionHandler.handleConstraintViolationException(constraintViolationException);
 
-        assertThat(response.getStatusCode(), is(HttpStatus.UNPROCESSABLE_ENTITY));
+        assertThat(response.getStatusCode(), is(HttpStatus.UNPROCESSABLE_CONTENT));
 
         final InformationResponseDto responseDto = (InformationResponseDto) response.getBody();
 
