@@ -1,6 +1,5 @@
 package de.muenchen.dave.geodataeai.domain.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import de.muenchen.dave.geodataeai.domain.exception.GeometryOperationFailedException;
 import de.muenchen.dave.geodataeai.domain.model.geometry.GeometryModel;
 import de.muenchen.dave.geodataeai.domain.model.geometry.PointGeometryModel;
@@ -17,6 +16,7 @@ import org.geotools.geometry.jts.JTSFactoryFinder;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.Point;
 import org.springframework.stereotype.Service;
+import tools.jackson.databind.ObjectMapper;
 
 @Service
 @Slf4j

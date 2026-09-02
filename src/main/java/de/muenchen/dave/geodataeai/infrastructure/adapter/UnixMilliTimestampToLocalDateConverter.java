@@ -1,10 +1,10 @@
 package de.muenchen.dave.geodataeai.infrastructure.adapter;
 
-import com.fasterxml.jackson.databind.util.StdConverter;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import lombok.extern.slf4j.Slf4j;
+import tools.jackson.databind.util.StdConverter;
 
 @Slf4j
 public class UnixMilliTimestampToLocalDateConverter extends StdConverter<Long, LocalDate> {

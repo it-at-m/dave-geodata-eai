@@ -1,7 +1,6 @@
 package de.muenchen.dave.geodataeai.infrastructure.entity.response.messwerte;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import de.muenchen.dave.geodataeai.infrastructure.adapter.UnixMilliTimestampToLocalDateTimeConverter;
 import de.muenchen.dave.geodataeai.infrastructure.entity.response.enums.MobidamFeatureTagesTyp;
 import de.muenchen.dave.geodataeai.infrastructure.entity.response.feature.FeatureProperties;
@@ -9,6 +8,7 @@ import de.muenchen.dave.geodataeai.infrastructure.entity.response.messstelle.Mes
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import lombok.Data;
+import tools.jackson.databind.annotation.JsonDeserialize;
 
 @Data
 public class Tagesaggregat implements FeatureProperties {
