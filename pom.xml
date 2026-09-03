@@ -448,6 +448,7 @@
                                 <useJakartaEe>true</useJakartaEe>
                                 <useSpringBoot3>false</useSpringBoot3>
                                 <useSpringBoot4>true</useSpringBoot4>
+                                <useJackson3>true</useJackson3>
                             </configOptions>
 
                             <globalProperties>

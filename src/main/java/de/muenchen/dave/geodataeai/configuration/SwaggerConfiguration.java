@@ -26,6 +26,7 @@ public class SwaggerConfiguration {
                 "/v3/api-docs/**",
                 "/swagger-resources/**",
                 "/swagger-ui/**",
+                "/swagger-ui.html"
         };
     }
 }
