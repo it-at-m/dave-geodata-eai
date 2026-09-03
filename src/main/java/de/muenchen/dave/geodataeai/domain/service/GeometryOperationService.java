@@ -16,6 +16,7 @@ import org.geotools.geometry.jts.JTSFactoryFinder;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.Point;
 import org.springframework.stereotype.Service;
+import tools.jackson.core.JacksonException;
 import tools.jackson.databind.ObjectMapper;
 
 @Service
@@ -64,7 +65,7 @@ public class GeometryOperationService {
         try (final ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
             jsonGeometry.writePoint(pointCoordiante, outputStream);
             return objectMapper.readValue(outputStream.toByteArray(), PointGeometryModel.class);
-        } catch (final IOException exception) {
+        } catch (final IOException | JacksonException exception) {
             final var message = "Das übergebene Multipolygon konnte nicht verarbeitet werden.";
             log.error(message);
             throw new GeometryOperationFailedException(message, exception);
