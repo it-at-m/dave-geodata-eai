@@ -42,7 +42,7 @@ public class IntervalExtractionService {
      * @return die Intervalle
      */
     @LogExecutionTime
-    public Stream<IntervalModel> getIntervalle(
+    public Stream<IntervalModel> fetchIntervalleFromMesswerteAsStream(
             final List<Integer> messquerschnittIds,
             final LocalDate startDate,
             final LocalDate endDate,
