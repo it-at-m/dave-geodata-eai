@@ -15,6 +15,7 @@ import lombok.Data;
 import org.apache.commons.collections4.ListUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.mapstruct.Context;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -118,52 +119,52 @@ public abstract class MesswerteResponseDomainMapper {
 
         public BigDecimal getAnzahlLfw() {
             final var data = getFromIntervalDataOrDefaultToNull(elementIndex.getIndexLfw());
-            return getZaehlwertOrDefaultToNull(data);
+            return parseZaehlwertToBigDecimalOrNullIfMissing(data);
         }
 
         public BigDecimal getAnzahlKrad() {
             final var data = getFromIntervalDataOrDefaultToNull(elementIndex.getIndexKrad());
-            return getZaehlwertOrDefaultToNull(data);
+            return parseZaehlwertToBigDecimalOrNullIfMissing(data);
         }
 
         public BigDecimal getAnzahlRad() {
             final var data = getFromIntervalDataOrDefaultToNull(elementIndex.getIndexRad());
-            return getZaehlwertOrDefaultToNull(data);
+            return parseZaehlwertToBigDecimalOrNullIfMissing(data);
         }
 
         public BigDecimal getAnzahlLkw() {
             final var data = getFromIntervalDataOrDefaultToNull(elementIndex.getIndexLkw());
-            return getZaehlwertOrDefaultToNull(data);
+            return parseZaehlwertToBigDecimalOrNullIfMissing(data);
         }
 
         public BigDecimal getAnzahlBus() {
             final var data = getFromIntervalDataOrDefaultToNull(elementIndex.getIndexBus());
-            return getZaehlwertOrDefaultToNull(data);
+            return parseZaehlwertToBigDecimalOrNullIfMissing(data);
         }
 
         public BigDecimal getSummeAllePkw() {
             final var data = getFromIntervalDataOrDefaultToNull(elementIndex.getIndexSummeAllePkw());
-            return getZaehlwertOrDefaultToNull(data);
+            return parseZaehlwertToBigDecimalOrNullIfMissing(data);
         }
 
         public BigDecimal getSummeLastzug() {
             final var data = getFromIntervalDataOrDefaultToNull(elementIndex.getIndexSummeLastzug());
-            return getZaehlwertOrDefaultToNull(data);
+            return parseZaehlwertToBigDecimalOrNullIfMissing(data);
         }
 
         public BigDecimal getSummeGueterverkehr() {
             final var data = getFromIntervalDataOrDefaultToNull(elementIndex.getIndexSummeGueterverkehr());
-            return getZaehlwertOrDefaultToNull(data);
+            return parseZaehlwertToBigDecimalOrNullIfMissing(data);
         }
 
         public BigDecimal getSummeSchwerverkehr() {
             final var data = getFromIntervalDataOrDefaultToNull(elementIndex.getIndexSummeSchwerverkehr());
-            return getZaehlwertOrDefaultToNull(data);
+            return parseZaehlwertToBigDecimalOrNullIfMissing(data);
         }
 
         public BigDecimal getSummeKraftfahrzeugverkehr() {
             final var data = getFromIntervalDataOrDefaultToNull(elementIndex.getIndexSummeKfzVerkehr());
-            return getZaehlwertOrDefaultToNull(data);
+            return parseZaehlwertToBigDecimalOrNullIfMissing(data);
         }
 
         private String getFromIntervalDataOrDefaultToNull(final int index) {
@@ -178,8 +179,28 @@ public abstract class MesswerteResponseDomainMapper {
                     : LocalDateTime.parse(dateTime, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         }
 
-        private BigDecimal getZaehlwertOrDefaultToNull(final String zaehlwert) {
-            return Objects.isNull(zaehlwert) || StringUtils.equals(zaehlwert, MISSING_ATTRIBUTE_VALUE)
+        /**
+         * Parst einen Zählwert-String in ein BigDecimal oder liefert null zurück, falls kein gültiger
+         * Zählwert vorliegt.
+         *
+         * <p>
+         * Verhalten:
+         * <ul>
+         * <li>Ist {@code zaehlwert} null oder der spezielle Missing-Wert {@code "NULL"}, wird null
+         * zurückgegeben.</li>
+         * <li>Andernfalls wird der String mittels {@link Long#parseLong(String)} in einen long
+         * geparst und danach in ein {@link BigDecimal} gewandelt.</li>
+         * </ul>
+         *
+         * @param zaehlwert der als String gelieferte Zählwert (kann {@code null} oder {@code "NULL"} sein)
+         * @return ein {@link BigDecimal} mit dem geparsten Wert oder {@code null}, falls der Eingabewert
+         *         fehlt
+         * @throws NumberFormatException wenn {@code zaehlwert} nicht als {@code long} geparst werden kann
+         *             (z. B. enthält nicht-numerische Zeichen oder liegt außerhalb
+         *             des Long-Bereichs). Diese Ausnahme stammt von {@link Long#parseLong(String)}.
+         */
+        private BigDecimal parseZaehlwertToBigDecimalOrNullIfMissing(final String zaehlwert) {
+            return Objects.isNull(zaehlwert) || Strings.CS.equals(zaehlwert, MISSING_ATTRIBUTE_VALUE)
                     ? null
                     : BigDecimal.valueOf(Long.parseLong(zaehlwert));
         }

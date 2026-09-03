@@ -16,10 +16,6 @@ public class InformationResponseDto {
 
     private LocalDateTime timestamp;
 
-    private String traceId;
-
-    private String spanId;
-
     private Integer httpStatus;
 
     private String originalException;

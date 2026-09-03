@@ -4,7 +4,6 @@ import de.muenchen.dave.geodataeai.api.dto.enums.InformationResponseType;
 import de.muenchen.dave.geodataeai.api.dto.error.InformationResponseDto;
 import de.muenchen.dave.geodataeai.domain.exception.GeometryOperationFailedException;
 import de.muenchen.dave.geodataeai.infrastructure.exception.FeatureRequestFailedException;
-import io.micrometer.tracing.Tracer;
 import jakarta.validation.ConstraintViolationException;
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -12,7 +11,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.ConversionNotSupportedException;
 import org.springframework.beans.TypeMismatchException;
@@ -51,12 +49,10 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @RequiredArgsConstructor
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
-    private final Tracer tracer;
-
     @ExceptionHandler(GeometryOperationFailedException.class)
     public ResponseEntity<Object> handleGeometryOperationFailedException(final GeometryOperationFailedException ex) {
         final var httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
-        final var errorResponseDto = this.createInformationResponseDtoWithTraceInformationAndTimestampAndOriginalExceptionNameAndStatusAndMessage(
+        final var errorResponseDto = this.createResponseWithTraceInformationAndTimestampAndOriginalExceptionNameAndStatusAndMessage(
                 ex,
                 httpStatus.value(),
                 List.of(ex.getMessage()));
@@ -66,7 +62,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(FeatureRequestFailedException.class)
     public ResponseEntity<Object> handleFeatureRequestFailedException(final FeatureRequestFailedException ex) {
         final var httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
-        final var errorResponseDto = this.createInformationResponseDtoWithTraceInformationAndTimestampAndOriginalExceptionNameAndStatusAndMessage(
+        final var errorResponseDto = this.createResponseWithTraceInformationAndTimestampAndOriginalExceptionNameAndStatusAndMessage(
                 ex,
                 httpStatus.value(),
                 List.of(ex.getMessage()));
@@ -75,8 +71,8 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<Object> handleConstraintViolationException(final ConstraintViolationException ex) {
-        final var httpStatus = HttpStatus.UNPROCESSABLE_ENTITY;
-        final var errorResponseDto = this.createInformationResponseDtoWithTraceInformationAndTimestampAndOriginalExceptionNameAndStatusAndMessage(
+        final var httpStatus = HttpStatus.UNPROCESSABLE_CONTENT;
+        final var errorResponseDto = this.createResponseWithTraceInformationAndTimestampAndOriginalExceptionNameAndStatusAndMessage(
                 ex,
                 httpStatus.value(),
                 List.of(ex.getMessage()));
@@ -100,7 +96,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
             final HttpStatusCode status,
             final WebRequest request) {
         super.handleHttpRequestMethodNotSupported(ex, headers, status, request);
-        final var errorResponseDto = this.createInformationResponseDtoWithTraceInformationAndTimestampAndOriginalExceptionName(ex);
+        final var errorResponseDto = this.createResponseWithTraceInformationAndTimestampAndOriginalExceptionName(ex);
         errorResponseDto.setHttpStatus(status.value());
         errorResponseDto.setMessages(List.of("Die HTTP-Methode " + ex.getMethod() + " wird nicht unterstützt."));
         return ResponseEntity.status(errorResponseDto.getHttpStatus()).headers(headers).body(errorResponseDto);
@@ -123,7 +119,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
             final HttpStatusCode status,
             final WebRequest request) {
         super.handleHttpMediaTypeNotSupported(ex, headers, status, request);
-        final var errorResponseDto = this.createInformationResponseDtoWithTraceInformationAndTimestampAndOriginalExceptionName(ex);
+        final var errorResponseDto = this.createResponseWithTraceInformationAndTimestampAndOriginalExceptionName(ex);
         errorResponseDto.setHttpStatus(status.value());
         errorResponseDto.setMessages(List.of("Der Content-Type " + ex.getContentType() + " wird nicht unterstützt."));
         return ResponseEntity.status(errorResponseDto.getHttpStatus()).headers(headers).body(errorResponseDto);
@@ -145,7 +141,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
             final HttpHeaders headers,
             final HttpStatusCode status,
             final WebRequest request) {
-        final var errorResponseDto = this.createInformationResponseDtoWithTraceInformationAndTimestampAndOriginalExceptionName(ex);
+        final var errorResponseDto = this.createResponseWithTraceInformationAndTimestampAndOriginalExceptionName(ex);
         errorResponseDto.setHttpStatus(status.value());
         errorResponseDto.setMessages(List.of("Der Media-Type des Requests wird nicht unterstützt."));
         return ResponseEntity.status(errorResponseDto.getHttpStatus()).headers(headers).body(errorResponseDto);
@@ -167,7 +163,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
             final HttpHeaders headers,
             final HttpStatusCode status,
             final WebRequest request) {
-        final var errorResponseDto = this.createInformationResponseDtoWithTraceInformationAndTimestampAndOriginalExceptionName(ex);
+        final var errorResponseDto = this.createResponseWithTraceInformationAndTimestampAndOriginalExceptionName(ex);
         errorResponseDto.setHttpStatus(status.value());
         errorResponseDto.setMessages(List.of("Der Pfadvariable " + ex.getVariableName() + " ist nicht gesetzt."));
         return ResponseEntity.status(errorResponseDto.getHttpStatus()).headers(headers).body(errorResponseDto);
@@ -189,7 +185,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
             final HttpHeaders headers,
             final HttpStatusCode status,
             final WebRequest request) {
-        final var errorResponseDto = this.createInformationResponseDtoWithTraceInformationAndTimestampAndOriginalExceptionName(ex);
+        final var errorResponseDto = this.createResponseWithTraceInformationAndTimestampAndOriginalExceptionName(ex);
         errorResponseDto.setHttpStatus(status.value());
         errorResponseDto.setMessages(List.of("Der Requestparameter " + ex.getParameterName() + " ist nicht gesetzt."));
         return ResponseEntity.status(errorResponseDto.getHttpStatus()).headers(headers).body(errorResponseDto);
@@ -211,7 +207,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
             final HttpHeaders headers,
             final HttpStatusCode status,
             final WebRequest request) {
-        final var errorResponseDto = this.createInformationResponseDtoWithTraceInformationAndTimestampAndOriginalExceptionName(ex);
+        final var errorResponseDto = this.createResponseWithTraceInformationAndTimestampAndOriginalExceptionName(ex);
         errorResponseDto.setHttpStatus(status.value());
         errorResponseDto.setMessages(List.of("Im Backend ist ein Fehler aufgetreten."));
         return ResponseEntity.status(errorResponseDto.getHttpStatus()).headers(headers).body(errorResponseDto);
@@ -233,7 +229,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
             final HttpHeaders headers,
             final HttpStatusCode status,
             final WebRequest request) {
-        final var errorResponseDto = this.createInformationResponseDtoWithTraceInformationAndTimestampAndOriginalExceptionName(ex);
+        final var errorResponseDto = this.createResponseWithTraceInformationAndTimestampAndOriginalExceptionName(ex);
         errorResponseDto.setHttpStatus(status.value());
         errorResponseDto.setMessages(List.of("Im Backend ist ein Fehler aufgetreten."));
         return ResponseEntity.status(errorResponseDto.getHttpStatus()).headers(headers).body(errorResponseDto);
@@ -255,7 +251,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
             final HttpHeaders headers,
             final HttpStatusCode status,
             final WebRequest request) {
-        final var errorResponseDto = this.createInformationResponseDtoWithTraceInformationAndTimestampAndOriginalExceptionName(ex);
+        final var errorResponseDto = this.createResponseWithTraceInformationAndTimestampAndOriginalExceptionName(ex);
         errorResponseDto.setHttpStatus(status.value());
         errorResponseDto.setMessages(
                 List.of("Das Attribut " + ex.getPropertyName() + " besitzt nicht den korrekten Datentyp."));
@@ -278,7 +274,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
             final HttpHeaders headers,
             final HttpStatusCode status,
             final WebRequest request) {
-        final var errorResponseDto = this.createInformationResponseDtoWithTraceInformationAndTimestampAndOriginalExceptionName(ex);
+        final var errorResponseDto = this.createResponseWithTraceInformationAndTimestampAndOriginalExceptionName(ex);
         errorResponseDto.setHttpStatus(status.value());
         errorResponseDto.setMessages(
                 List.of("Die Nutzlast der Anfrage an das Backend konnte nicht verarbeitet werden."));
@@ -301,7 +297,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
             final HttpHeaders headers,
             final HttpStatusCode status,
             final WebRequest request) {
-        final var errorResponseDto = this.createInformationResponseDtoWithTraceInformationAndTimestampAndOriginalExceptionName(ex);
+        final var errorResponseDto = this.createResponseWithTraceInformationAndTimestampAndOriginalExceptionName(ex);
         errorResponseDto.setHttpStatus(status.value());
         errorResponseDto.setMessages(List.of("Der Nutzlast des Antwort vom Backend konnte nicht verarbeitet werden."));
         return ResponseEntity.status(errorResponseDto.getHttpStatus()).headers(headers).body(errorResponseDto);
@@ -339,7 +335,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
                 .map(errorEntry -> "Attribut " + errorEntry.getKey() + ": " + StringUtils.capitalize(errorEntry.getValue()))
                 .collect(Collectors.toList());
 
-        final var errorResponseDto = this.createInformationResponseDtoWithTraceInformationAndTimestampAndOriginalExceptionName(ex);
+        final var errorResponseDto = this.createResponseWithTraceInformationAndTimestampAndOriginalExceptionName(ex);
         errorResponseDto.setHttpStatus(status.value());
         errorResponseDto.setMessages(errorMessages);
         return ResponseEntity.status(errorResponseDto.getHttpStatus()).headers(headers).body(errorResponseDto);
@@ -364,7 +360,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
             final HttpHeaders headers,
             final HttpStatusCode status,
             final WebRequest request) {
-        final var errorResponseDto = this.createInformationResponseDtoWithTraceInformationAndTimestampAndOriginalExceptionName(ex);
+        final var errorResponseDto = this.createResponseWithTraceInformationAndTimestampAndOriginalExceptionName(ex);
         errorResponseDto.setHttpStatus(status.value());
         errorResponseDto.setMessages(List.of("Es ist ein Fehler aufgetreten."));
         return ResponseEntity.status(errorResponseDto.getHttpStatus()).headers(headers).body(errorResponseDto);
@@ -386,7 +382,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
             final HttpHeaders headers,
             final HttpStatusCode status,
             final WebRequest request) {
-        final var errorResponseDto = this.createInformationResponseDtoWithTraceInformationAndTimestampAndOriginalExceptionName(ex);
+        final var errorResponseDto = this.createResponseWithTraceInformationAndTimestampAndOriginalExceptionName(ex);
         errorResponseDto.setHttpStatus(status.value());
         errorResponseDto.setMessages(
                 List.of(
@@ -415,33 +411,27 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
             final HttpStatusCode status,
             final WebRequest webRequest) {
         super.handleAsyncRequestTimeoutException(ex, headers, status, webRequest);
-        final var errorResponseDto = this.createInformationResponseDtoWithTraceInformationAndTimestampAndOriginalExceptionName(ex);
+        final var errorResponseDto = this.createResponseWithTraceInformationAndTimestampAndOriginalExceptionName(ex);
         errorResponseDto.setHttpStatus(status.value());
         errorResponseDto.setMessages(List.of("Im Backend ist ein Timeout aufgetreten."));
         return ResponseEntity.status(errorResponseDto.getHttpStatus()).headers(headers).body(errorResponseDto);
     }
 
-    protected InformationResponseDto createInformationResponseDtoWithTraceInformationAndTimestampAndOriginalExceptionNameAndStatusAndMessage(
+    protected InformationResponseDto createResponseWithTraceInformationAndTimestampAndOriginalExceptionNameAndStatusAndMessage(
             final Exception ex,
             final int httpStatus,
             final List<String> messages) {
-        final var errorResponseDto = this.createInformationResponseDtoWithTraceInformationAndTimestampAndOriginalExceptionName(ex);
+        final var errorResponseDto = this.createResponseWithTraceInformationAndTimestampAndOriginalExceptionName(ex);
         errorResponseDto.setHttpStatus(httpStatus);
         errorResponseDto.setMessages(messages);
         return errorResponseDto;
     }
 
-    protected InformationResponseDto createInformationResponseDtoWithTraceInformationAndTimestampAndOriginalExceptionName(
-            final Exception ex) {
-        final var span = this.tracer.currentSpan();
+    protected InformationResponseDto createResponseWithTraceInformationAndTimestampAndOriginalExceptionName(final Exception ex) {
         final var errorResponseDto = new InformationResponseDto();
         errorResponseDto.setType(InformationResponseType.ERROR);
         errorResponseDto.setTimestamp(LocalDateTime.now());
         errorResponseDto.setOriginalException(ex.getClass().getSimpleName());
-        if (ObjectUtils.isNotEmpty(span)) {
-            errorResponseDto.setTraceId(span.context().traceId());
-            errorResponseDto.setSpanId(span.context().spanId());
-        }
         return errorResponseDto;
     }
 }

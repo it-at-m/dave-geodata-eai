@@ -57,26 +57,26 @@ public final class MesswertUtils {
             final MesswertModel messwert1,
             final MesswertModel messwert2) {
         final var messwert = TagesaggregatModel.class.equals(messwert1.getClass()) ? new TagesaggregatModel() : new IntervalModel();
-        messwert.setAnzahlLfw(sumValuesIfAnyNotNullOrReturnNull(messwert1.getAnzahlLfw(), messwert2.getAnzahlLfw()));
-        messwert.setAnzahlKrad(sumValuesIfAnyNotNullOrReturnNull(messwert1.getAnzahlKrad(), messwert2.getAnzahlKrad()));
-        messwert.setAnzahlLkw(sumValuesIfAnyNotNullOrReturnNull(messwert1.getAnzahlLkw(), messwert2.getAnzahlLkw()));
-        messwert.setAnzahlBus(sumValuesIfAnyNotNullOrReturnNull(messwert1.getAnzahlBus(), messwert2.getAnzahlBus()));
-        messwert.setAnzahlRad(sumValuesIfAnyNotNullOrReturnNull(messwert1.getAnzahlRad(), messwert2.getAnzahlRad()));
-        messwert.setSummeAllePkw(sumValuesIfAnyNotNullOrReturnNull(messwert1.getSummeAllePkw(), messwert2.getSummeAllePkw()));
-        messwert.setSummeLastzug(sumValuesIfAnyNotNullOrReturnNull(messwert1.getSummeLastzug(), messwert2.getSummeLastzug()));
-        messwert.setSummeGueterverkehr(sumValuesIfAnyNotNullOrReturnNull(messwert1.getSummeGueterverkehr(), messwert2.getSummeGueterverkehr()));
-        messwert.setSummeSchwerverkehr(sumValuesIfAnyNotNullOrReturnNull(messwert1.getSummeSchwerverkehr(), messwert2.getSummeSchwerverkehr()));
+        messwert.setAnzahlLfw(sumValuesTreatingNullAsZeroOrReturnNullIfAllNull(messwert1.getAnzahlLfw(), messwert2.getAnzahlLfw()));
+        messwert.setAnzahlKrad(sumValuesTreatingNullAsZeroOrReturnNullIfAllNull(messwert1.getAnzahlKrad(), messwert2.getAnzahlKrad()));
+        messwert.setAnzahlLkw(sumValuesTreatingNullAsZeroOrReturnNullIfAllNull(messwert1.getAnzahlLkw(), messwert2.getAnzahlLkw()));
+        messwert.setAnzahlBus(sumValuesTreatingNullAsZeroOrReturnNullIfAllNull(messwert1.getAnzahlBus(), messwert2.getAnzahlBus()));
+        messwert.setAnzahlRad(sumValuesTreatingNullAsZeroOrReturnNullIfAllNull(messwert1.getAnzahlRad(), messwert2.getAnzahlRad()));
+        messwert.setSummeAllePkw(sumValuesTreatingNullAsZeroOrReturnNullIfAllNull(messwert1.getSummeAllePkw(), messwert2.getSummeAllePkw()));
+        messwert.setSummeLastzug(sumValuesTreatingNullAsZeroOrReturnNullIfAllNull(messwert1.getSummeLastzug(), messwert2.getSummeLastzug()));
+        messwert.setSummeGueterverkehr(sumValuesTreatingNullAsZeroOrReturnNullIfAllNull(messwert1.getSummeGueterverkehr(), messwert2.getSummeGueterverkehr()));
+        messwert.setSummeSchwerverkehr(sumValuesTreatingNullAsZeroOrReturnNullIfAllNull(messwert1.getSummeSchwerverkehr(), messwert2.getSummeSchwerverkehr()));
         messwert.setSummeKraftfahrzeugverkehr(
-                sumValuesIfAnyNotNullOrReturnNull(messwert1.getSummeKraftfahrzeugverkehr(), messwert2.getSummeKraftfahrzeugverkehr()));
+                sumValuesTreatingNullAsZeroOrReturnNullIfAllNull(messwert1.getSummeKraftfahrzeugverkehr(), messwert2.getSummeKraftfahrzeugverkehr()));
         return messwert;
     }
 
-    public static BigDecimal sumValuesIfAnyNotNullOrReturnNull(final BigDecimal... values) {
+    public static BigDecimal sumValuesTreatingNullAsZeroOrReturnNullIfAllNull(final BigDecimal... values) {
         BigDecimal summedValue = null;
         if (ObjectUtils.anyNotNull(values)) {
             summedValue = Stream.of(values)
                     .reduce(BigDecimal.ZERO,
-                            (value1, value2) -> ObjectUtils.defaultIfNull(value1, BigDecimal.ZERO).add(ObjectUtils.defaultIfNull(value2, BigDecimal.ZERO)));
+                            (value1, value2) -> ObjectUtils.getIfNull(value1, BigDecimal.ZERO).add(ObjectUtils.getIfNull(value2, BigDecimal.ZERO)));
         }
         return summedValue;
     }

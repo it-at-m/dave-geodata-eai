@@ -5,15 +5,16 @@ spring:
     location: banner.txt
   codec:
     max-in-memory-size: 52428800 # bytes
+  web:
+    error:
+      include-exception: false
+      include-stacktrace: never
+      whitelabel:
+        enabled: false
 
 server:
   shutdown: "graceful"
   port: 8080
-  error:
-    include-exception: false
-    include-stacktrace: never
-    whitelabel:
-      enabled: false
 
 # Config for spring actuator endpoints
 management:
@@ -33,6 +34,18 @@ management:
   info:
     env:
       enabled: true
+  otlp:
+    metrics:
+      export:
+        enabled: false
+
+
+# Enable swagger-ui
+springdoc:
+  swagger-ui:
+    enabled: true
+  api-docs:
+    enabled: true
 
 info.application.name: @project.artifactId@
 info.application.version: @project.version@

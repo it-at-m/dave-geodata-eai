@@ -3,7 +3,6 @@ package de.muenchen.dave.geodataeai.infrastructure.client;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import de.muenchen.dave.geodataeai.infrastructure.entity.request.enums.SpatialRelation;
 import de.muenchen.dave.geodataeai.infrastructure.entity.request.geometry.ArcgisPoint;
 import de.muenchen.dave.geodataeai.infrastructure.entity.request.geometry.ArcgisRings;
@@ -136,7 +135,7 @@ class ArcgisRestClientTest {
     }
 
     @Test
-    void createGeometryJsonOfPolygon() throws GeometryNotFoundException, JsonProcessingException {
+    void createGeometryJsonOfPolygon() throws GeometryNotFoundException {
         final var geometryFactory = JTSFactoryFinder.getGeometryFactory();
         final var coordinate1 = new Coordinate();
         coordinate1.setX(1.111);
@@ -167,7 +166,7 @@ class ArcgisRestClientTest {
     }
 
     @Test
-    void createGeometryJsonOfPoint() throws GeometryNotFoundException, JsonProcessingException {
+    void createGeometryJsonOfPoint() throws GeometryNotFoundException {
         final var geometryFactory = JTSFactoryFinder.getGeometryFactory();
         final var coordinate = new Coordinate();
         coordinate.setX(1.111);
