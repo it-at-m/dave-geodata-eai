@@ -46,6 +46,8 @@ springdoc:
     enabled: true
   api-docs:
     enabled: true
+    version: openapi_3_0
+  show-actuator: true
 
 info.application.name: @project.artifactId@
 info.application.version: @project.version@
