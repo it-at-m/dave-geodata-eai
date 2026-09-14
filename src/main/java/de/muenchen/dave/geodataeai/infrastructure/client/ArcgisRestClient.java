@@ -1,7 +1,5 @@
 package de.muenchen.dave.geodataeai.infrastructure.client;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import de.muenchen.dave.geodataeai.configuration.LogExecutionTime;
 import de.muenchen.dave.geodataeai.infrastructure.entity.request.enums.GeometryType;
 import de.muenchen.dave.geodataeai.infrastructure.entity.request.enums.SpatialRelation;
@@ -38,6 +36,8 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.ObjectMapper;
 
 @Slf4j
 @Service
@@ -182,7 +182,7 @@ public class ArcgisRestClient {
             requestBody.add("f", "geojson");
             log.debug("Request body of Arcgis request: {}", requestBody);
             return requestBody;
-        } catch (final JsonProcessingException exception) {
+        } catch (final JacksonException exception) {
             final var message = "Bei der Erstellung des Request-Body ist ein Fehler aufgetreten.";
             log.error(message);
             throw new ArcgisNonRequestException(message, exception);
@@ -196,13 +196,12 @@ public class ArcgisRestClient {
      * Erstellt eine JSON-Representation der im Parameter gegebenen Geomtry für den Request an den
      * Arcgis-FeatureServer.
      *
-     * @param geometry
+     * @param geometry zur Erstellung der JSON-Repräsentation.
      * @return die JSON-Representation der Geometry.
      * @throws GeometryNotFoundException falls die Geometry nicht unterstüzt wird.
-     * @throws JsonProcessingException falls keine JSON-Representation erstellt werden konnte.
+     * @throws JacksonException falls keine JSON-Representation erstellt werden konnte.
      */
-    protected String createGeometryJson(final Geometry geometry)
-            throws GeometryNotFoundException, JsonProcessingException {
+    protected String createGeometryJson(final Geometry geometry) throws GeometryNotFoundException, JacksonException {
         final String geometryJson;
         if (Polygon.class.equals(geometry.getClass())) {
             final var arcgisPolygon = this.createArcgisRings((Polygon) geometry);

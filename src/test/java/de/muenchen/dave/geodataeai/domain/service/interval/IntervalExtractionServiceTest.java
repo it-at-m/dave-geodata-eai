@@ -44,7 +44,7 @@ class IntervalExtractionServiceTest {
     }
 
     @Test
-    void getIntervalle() {
+    void fetchIntervalleFromMesswerteAsStream() {
         final var format = " TEST DATUM_UHRZEIT_VON DATUM_UHRZEIT_BIS SUMME_KRAFTFAHRZEUGVERKEHR ANZAHL_PKW ANZAHL_PKWA ANZAHL_LKW ANZAHL_LKWA ANZAHL_KRAD ANZAHL_LFW ANZAHL_SATTEL_KFZ ANZAHL_BUS ANZAHL_NK_KFZ SUMME_ALLE_PKW SUMME_LASTZUG SUMME_GUETERVERKEHR SUMME_SCHWERVERKEHR ANZAHL_RAD TEST";
 
         final var intervalData1 = List.of("15", "2024-09-01 13:15:21", "2024-09-01 13:30:21", "70", "71", "72", "73", "74", "75", "76", "77", "78", "79", "80",
@@ -114,7 +114,7 @@ class IntervalExtractionServiceTest {
                 2,
                 100000)).thenReturn(Mono.just(messwerte3));
 
-        final var result = intervalExtractionService.getIntervalle(
+        final var result = intervalExtractionService.fetchIntervalleFromMesswerteAsStream(
                 List.of(1, 2, 3),
                 LocalDate.of(2020, 1, 1),
                 LocalDate.of(2020, 2, 1),

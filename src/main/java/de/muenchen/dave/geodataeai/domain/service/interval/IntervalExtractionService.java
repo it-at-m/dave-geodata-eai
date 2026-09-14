@@ -42,7 +42,7 @@ public class IntervalExtractionService {
      * @return die Intervalle
      */
     @LogExecutionTime
-    public Stream<IntervalModel> getIntervalle(
+    public Stream<IntervalModel> fetchIntervalleFromMesswerteAsStream(
             final List<Integer> messquerschnittIds,
             final LocalDate startDate,
             final LocalDate endDate,
@@ -54,7 +54,7 @@ public class IntervalExtractionService {
         final var intervals = new ArrayList<IntervalModel>();
         MqMesswerteDto messwerteResponse = new MqMesswerteDto();
         messwerteResponse.setTotalPages(2);
-        for (int page = 0; page < ObjectUtils.defaultIfNull(messwerteResponse.getTotalPages(), 0); page++) {
+        for (int page = 0; page < ObjectUtils.getIfNull(messwerteResponse.getTotalPages(), 0); page++) {
             messwerteResponse = this.getMesswerte(
                     messquerschnittIds,
                     startDate,

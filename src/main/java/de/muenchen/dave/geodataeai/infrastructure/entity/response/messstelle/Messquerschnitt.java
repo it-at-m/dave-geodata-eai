@@ -1,13 +1,13 @@
 package de.muenchen.dave.geodataeai.infrastructure.entity.response.messstelle;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import de.muenchen.dave.geodataeai.infrastructure.adapter.UnixMilliTimestampToLocalDateConverter;
 import de.muenchen.dave.geodataeai.infrastructure.entity.response.enums.Verkehrsart;
 import de.muenchen.dave.geodataeai.infrastructure.entity.response.feature.FeatureProperties;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import lombok.Data;
+import tools.jackson.databind.annotation.JsonDeserialize;
 
 @Data
 public class Messquerschnitt implements FeatureProperties {

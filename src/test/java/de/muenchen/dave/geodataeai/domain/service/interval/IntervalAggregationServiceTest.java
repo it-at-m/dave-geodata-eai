@@ -101,7 +101,7 @@ class IntervalAggregationServiceTest {
         allIntervalsToReturn.addAll(intervals60Minutes);
         Collections.shuffle(allIntervalsToReturn);
 
-        Mockito.when(intervalExtractionService.getIntervalle(
+        Mockito.when(intervalExtractionService.fetchIntervalleFromMesswerteAsStream(
                 mqIds,
                 startDate,
                 endDate,
@@ -288,7 +288,7 @@ class IntervalAggregationServiceTest {
         allIntervalsToReturn.addAll(intervals60Minutes);
         Collections.shuffle(allIntervalsToReturn);
 
-        Mockito.when(intervalExtractionService.getIntervalle(
+        Mockito.when(intervalExtractionService.fetchIntervalleFromMesswerteAsStream(
                 mqIds,
                 startDate,
                 endDate,
@@ -449,7 +449,7 @@ class IntervalAggregationServiceTest {
                 IntervalSize.INTERVAL_15,
                 tagesTyp);
 
-        Mockito.when(intervalExtractionService.getIntervalle(
+        Mockito.when(intervalExtractionService.fetchIntervalleFromMesswerteAsStream(
                 mqIds,
                 startDate,
                 endDate,
@@ -504,7 +504,7 @@ class IntervalAggregationServiceTest {
                 intervalSize,
                 tagesTyp);
 
-        Mockito.when(intervalExtractionService.getIntervalle(
+        Mockito.when(intervalExtractionService.fetchIntervalleFromMesswerteAsStream(
                 mqIds,
                 startDate,
                 endDate,
@@ -565,7 +565,7 @@ class IntervalAggregationServiceTest {
 
         final var responseForIntervalService = Stream.concat(responseForIntervalService15Minute, responseForIntervalService60Minute);
 
-        Mockito.when(intervalExtractionService.getIntervalle(
+        Mockito.when(intervalExtractionService.fetchIntervalleFromMesswerteAsStream(
                 mqIds,
                 startDate,
                 endDate,
@@ -615,7 +615,7 @@ class IntervalAggregationServiceTest {
                 IntervalSize.INTERVAL_15,
                 tagesTyp);
 
-        Mockito.when(intervalExtractionService.getIntervalle(
+        Mockito.when(intervalExtractionService.fetchIntervalleFromMesswerteAsStream(
                 mqIds,
                 startDate,
                 endDate,
@@ -665,7 +665,7 @@ class IntervalAggregationServiceTest {
                 IntervalSize.INTERVAL_60,
                 tagesTyp);
 
-        Mockito.when(intervalExtractionService.getIntervalle(
+        Mockito.when(intervalExtractionService.fetchIntervalleFromMesswerteAsStream(
                 mqIds,
                 startDate,
                 endDate,
@@ -729,7 +729,7 @@ class IntervalAggregationServiceTest {
 
         final var responseForIntervalService = Stream.concat(responseForIntervalService60Minutes, responseForIntervalService15Minutes);
 
-        Mockito.when(intervalExtractionService.getIntervalle(
+        Mockito.when(intervalExtractionService.fetchIntervalleFromMesswerteAsStream(
                 mqIds,
                 startDate,
                 endDate,
