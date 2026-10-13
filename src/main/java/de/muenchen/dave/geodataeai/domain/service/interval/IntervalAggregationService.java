@@ -76,7 +76,7 @@ public class IntervalAggregationService {
     public List<IntervalModel> getAggregatedIntervalsAccordingRequestedIntervalsizeForAllMqIds(final MesswertRequestModel request) {
         final var allAggregatedIntervals = new CopyOnWriteArrayList<IntervalModel>();
 
-        intervalExtractionService.getIntervalle(
+        intervalExtractionService.fetchIntervalleFromMesswerteAsStream(
                 request.getAllMessquerschnittIds(),
                 request.getStartDate(),
                 request.getEndDate(),
