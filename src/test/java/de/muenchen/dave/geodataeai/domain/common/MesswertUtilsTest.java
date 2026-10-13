@@ -166,47 +166,47 @@ class MesswertUtilsTest {
     }
 
     @Test
-    void sumValuesIfAnyNotNullOrReturnNullBigDecimal() {
+    void sumValuesTreatingNullAsZeroOrReturnNullIfAllNullBigDecimal() {
         var value1 = BigDecimal.valueOf(1);
         var value2 = BigDecimal.valueOf(2);
         var value3 = BigDecimal.valueOf(3);
-        var result = MesswertUtils.sumValuesIfAnyNotNullOrReturnNull(value1, value2, value3);
+        var result = MesswertUtils.sumValuesTreatingNullAsZeroOrReturnNullIfAllNull(value1, value2, value3);
         assertThat(result, is(BigDecimal.valueOf(6)));
 
         value1 = BigDecimal.valueOf(1);
         value2 = null;
         value3 = null;
-        result = MesswertUtils.sumValuesIfAnyNotNullOrReturnNull(value1, value2, value3);
+        result = MesswertUtils.sumValuesTreatingNullAsZeroOrReturnNullIfAllNull(value1, value2, value3);
         assertThat(result, is(BigDecimal.valueOf(1)));
 
         value1 = null;
         value2 = BigDecimal.valueOf(1);
         value3 = null;
-        result = MesswertUtils.sumValuesIfAnyNotNullOrReturnNull(value1, value2, value3);
+        result = MesswertUtils.sumValuesTreatingNullAsZeroOrReturnNullIfAllNull(value1, value2, value3);
         assertThat(result, is(BigDecimal.valueOf(1)));
 
         value1 = null;
         value2 = null;
         value3 = BigDecimal.valueOf(1);
-        result = MesswertUtils.sumValuesIfAnyNotNullOrReturnNull(value1, value2, value3);
+        result = MesswertUtils.sumValuesTreatingNullAsZeroOrReturnNullIfAllNull(value1, value2, value3);
         assertThat(result, is(BigDecimal.valueOf(1)));
 
         value1 = BigDecimal.valueOf(1);
         value2 = BigDecimal.valueOf(2);
         value3 = null;
-        result = MesswertUtils.sumValuesIfAnyNotNullOrReturnNull(value1, value2, value3);
+        result = MesswertUtils.sumValuesTreatingNullAsZeroOrReturnNullIfAllNull(value1, value2, value3);
         assertThat(result, is(BigDecimal.valueOf(3)));
 
         value1 = null;
         value2 = BigDecimal.valueOf(1);
         value3 = BigDecimal.valueOf(2);
-        result = MesswertUtils.sumValuesIfAnyNotNullOrReturnNull(value1, value2, value3);
+        result = MesswertUtils.sumValuesTreatingNullAsZeroOrReturnNullIfAllNull(value1, value2, value3);
         assertThat(result, is(BigDecimal.valueOf(3)));
 
         value1 = null;
         value2 = null;
         value3 = null;
-        result = MesswertUtils.sumValuesIfAnyNotNullOrReturnNull(value1, value2, value3);
+        result = MesswertUtils.sumValuesTreatingNullAsZeroOrReturnNullIfAllNull(value1, value2, value3);
         assertThat(result, is(nullValue()));
     }
 
