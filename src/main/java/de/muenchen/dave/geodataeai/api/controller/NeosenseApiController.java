@@ -18,7 +18,7 @@ public class NeosenseApiController {
 
     @GetMapping("the-neosense-url-for-interval-data-from-traffic-measurement-site")
     public ResponseEntity<TrafficMeasurementSiteDto> getIntervalDataForTrafficMeasurementSite(
-            @RequestParam(value = "traffic-meassurement-point", required = true) @NotNull final Integer trafficMeasurementPoint,
+            @RequestParam(value = "traffic-meassurement-point", required = true) @NotNull final Integer trafficMeasurementSiteId,
             @RequestParam(value = "from", required = true) @NotNull final LocalDateTime from,
             @RequestParam(value = "to", required = true) @NotNull final LocalDateTime to) {
         final var measurementPoint = new TrafficMeasurementSiteDto();
