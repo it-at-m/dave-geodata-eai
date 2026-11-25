@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class NeosenseApiController {
 
-    @GetMapping("the-neosense-url-for-interval-data-from-traffic-meassurement-site")
+    @GetMapping("the-neosense-url-for-interval-data-from-traffic-measurement-site")
     public ResponseEntity<TrafficMeasurementSiteDto> getIntervalDataForTrafficMeasurementSite(
             @RequestParam(value = "traffic-meassurement-point", required = true) @NotNull final Integer trafficMeasurementPoint,
             @RequestParam(value = "from", required = true) @NotNull final LocalDateTime from,
