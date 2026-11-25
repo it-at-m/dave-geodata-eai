@@ -1,7 +1,7 @@
 package de.muenchen.dave.geodataeai.api.controller;
 
 import de.muenchen.dave.geodataeai.api.controller.test.CountingUnitDto;
-import de.muenchen.dave.geodataeai.api.controller.test.TrafficMeasurementPointDto;
+import de.muenchen.dave.geodataeai.api.controller.test.TrafficMeasurementSiteDto;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
@@ -16,12 +16,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class NeosenseApiController {
 
-    @GetMapping("the-neosense-url-for-interval-data-from-traffic-meassurement-point")
-    public ResponseEntity<TrafficMeasurementPointDto> getIntervalDataForTrafficMeasurementPoint(
+    @GetMapping("the-neosense-url-for-interval-data-from-traffic-meassurement-site")
+    public ResponseEntity<TrafficMeasurementSiteDto> getIntervalDataForTrafficMeasurementSite(
             @RequestParam(value = "traffic-meassurement-point", required = true) @NotNull final Integer trafficMeasurementPoint,
             @RequestParam(value = "from", required = true) @NotNull final LocalDateTime from,
             @RequestParam(value = "to", required = true) @NotNull final LocalDateTime to) {
-        final var measurementPoint = new TrafficMeasurementPointDto();
+        final var measurementPoint = new TrafficMeasurementSiteDto();
         return ResponseEntity.ok(measurementPoint);
     }
 
