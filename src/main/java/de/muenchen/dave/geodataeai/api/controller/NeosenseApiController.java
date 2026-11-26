@@ -18,14 +18,14 @@ public class NeosenseApiController {
 
     @GetMapping("the-neosense-url-for-interval-data-from-traffic-measurement-site")
     public ResponseEntity<TrafficMeasurementSite> getIntervalDataForTrafficMeasurementSite(
-            @RequestParam(value = "traffic-meassurement-point", required = true) @NotEmpty final String trafficMeasurementSiteId,
+            @RequestParam(value = "traffic-measurement-site-id", required = true) @NotEmpty final String trafficMeasurementSiteId,
             @RequestParam(value = "from", required = true) @NotNull final LocalDateTime from,
             @RequestParam(value = "to", required = true) @NotNull final LocalDateTime to) {
         final var measurementSite = new TrafficMeasurementSite();
         return ResponseEntity.ok(measurementSite);
     }
 
-    @GetMapping("the-neosense-url-for-interval-data-from-counting-unit-ids")
+    @GetMapping("the-neosense-url-for-interval-data-from-counting-units")
     public ResponseEntity<List<CountingUnit>> getIntervalDataForCountingUnitIds(
             @RequestParam(value = "counting-unit-ids", required = true) @NotEmpty final List<@NotEmpty String> countingUnitIds,
             @RequestParam(value = "from", required = true) @NotNull final LocalDateTime from,
