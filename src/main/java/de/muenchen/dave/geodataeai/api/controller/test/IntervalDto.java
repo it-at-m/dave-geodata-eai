@@ -3,7 +3,7 @@ package de.muenchen.dave.geodataeai.api.controller.test;
 import java.time.LocalDateTime;
 
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.PositiveOrZero;
+
 import lombok.Data;
 
 @Data

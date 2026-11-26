@@ -10,7 +10,8 @@ import lombok.Data;
 @Data
 public class TrafficMeasurementSiteDto {
 
-    private Integer id;
+    @NotEmpty
+    private String id;
 
     @NotEmpty
     @Valid

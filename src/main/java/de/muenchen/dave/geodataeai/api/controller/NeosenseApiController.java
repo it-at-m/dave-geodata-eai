@@ -18,7 +18,7 @@ public class NeosenseApiController {
 
     @GetMapping("the-neosense-url-for-interval-data-from-traffic-measurement-site")
     public ResponseEntity<TrafficMeasurementSiteDto> getIntervalDataForTrafficMeasurementSite(
-            @RequestParam(value = "traffic-meassurement-point", required = true) @NotNull final Integer trafficMeasurementSiteId,
+            @RequestParam(value = "traffic-meassurement-point", required = true) @NotEmpty final String trafficMeasurementSiteId,
             @RequestParam(value = "from", required = true) @NotNull final LocalDateTime from,
             @RequestParam(value = "to", required = true) @NotNull final LocalDateTime to) {
         final var measurementPoint = new TrafficMeasurementSiteDto();
@@ -26,12 +26,12 @@ public class NeosenseApiController {
     }
 
     @GetMapping("the-neosense-url-for-interval-data-from-counting-unit-ids")
-    public ResponseEntity<CountingUnitDto> getIntervalDataForCountingUnitIds(
-            @RequestParam(value = "counting-unit-ids", required = true) @NotEmpty final List<@NotNull Integer> countingUnitIds,
+    public ResponseEntity<List<CountingUnitDto>> getIntervalDataForCountingUnitIds(
+            @RequestParam(value = "counting-unit-ids", required = true) @NotEmpty final List<@NotEmpty String> countingUnitIds,
             @RequestParam(value = "from", required = true) @NotNull final LocalDateTime from,
             @RequestParam(value = "to", required = true) @NotNull final LocalDateTime to) {
         final var countingUnit = new CountingUnitDto();
-        return ResponseEntity.ok(countingUnit);
+        return ResponseEntity.ok(List.of(countingUnit));
     }
 
 }

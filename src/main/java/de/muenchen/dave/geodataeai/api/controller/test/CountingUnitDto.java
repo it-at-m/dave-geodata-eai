@@ -10,8 +10,8 @@ import lombok.Data;
 @Data
 public class CountingUnitDto {
 
-    @NotNull
-    private Integer id;
+    @NotEmpty
+    private String id;
 
     @NotNull
     @Valid
