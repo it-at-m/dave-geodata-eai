@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class NeosenseApiController {
 
-    @GetMapping("the-neosense-url-for-interval-data-from-traffic-measurement-site")
+    @GetMapping("the-url-for-interval-data-from-traffic-measurement-site")
     public ResponseEntity<TrafficMeasurementSite> getIntervalDataForTrafficMeasurementSite(
             @RequestParam(value = "traffic-measurement-site-id", required = true) @NotEmpty final String trafficMeasurementSiteId,
             @RequestParam(value = "from", required = true) @NotNull final LocalDateTime from,
@@ -25,7 +25,7 @@ public class NeosenseApiController {
         return ResponseEntity.ok(measurementSite);
     }
 
-    @GetMapping("the-neosense-url-for-interval-data-from-counting-units")
+    @GetMapping("the-url-for-interval-data-from-counting-units")
     public ResponseEntity<List<CountingUnit>> getIntervalDataForCountingUnitIds(
             @RequestParam(value = "counting-unit-ids", required = true) @NotEmpty final List<@NotEmpty String> countingUnitIds,
             @RequestParam(value = "from", required = true) @NotNull final LocalDateTime from,
