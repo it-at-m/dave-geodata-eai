@@ -1,7 +1,7 @@
 package de.muenchen.dave.geodataeai.api.controller;
 
-import de.muenchen.dave.geodataeai.api.controller.test.CountingUnitDto;
-import de.muenchen.dave.geodataeai.api.controller.test.TrafficMeasurementSiteDto;
+import de.muenchen.dave.geodataeai.api.controller.test.CountingUnit;
+import de.muenchen.dave.geodataeai.api.controller.test.TrafficMeasurementSite;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
@@ -17,20 +17,20 @@ import org.springframework.web.bind.annotation.RestController;
 public class NeosenseApiController {
 
     @GetMapping("the-neosense-url-for-interval-data-from-traffic-measurement-site")
-    public ResponseEntity<TrafficMeasurementSiteDto> getIntervalDataForTrafficMeasurementSite(
+    public ResponseEntity<TrafficMeasurementSite> getIntervalDataForTrafficMeasurementSite(
             @RequestParam(value = "traffic-meassurement-point", required = true) @NotEmpty final String trafficMeasurementSiteId,
             @RequestParam(value = "from", required = true) @NotNull final LocalDateTime from,
             @RequestParam(value = "to", required = true) @NotNull final LocalDateTime to) {
-        final var measurementSite = new TrafficMeasurementSiteDto();
+        final var measurementSite = new TrafficMeasurementSite();
         return ResponseEntity.ok(measurementSite);
     }
 
     @GetMapping("the-neosense-url-for-interval-data-from-counting-unit-ids")
-    public ResponseEntity<List<CountingUnitDto>> getIntervalDataForCountingUnitIds(
+    public ResponseEntity<List<CountingUnit>> getIntervalDataForCountingUnitIds(
             @RequestParam(value = "counting-unit-ids", required = true) @NotEmpty final List<@NotEmpty String> countingUnitIds,
             @RequestParam(value = "from", required = true) @NotNull final LocalDateTime from,
             @RequestParam(value = "to", required = true) @NotNull final LocalDateTime to) {
-        final var countingUnit = new CountingUnitDto();
+        final var countingUnit = new CountingUnit();
         return ResponseEntity.ok(List.of(countingUnit));
     }
 

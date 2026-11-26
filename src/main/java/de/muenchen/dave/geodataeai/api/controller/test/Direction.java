@@ -8,13 +8,13 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-public class CountingUnitDto {
+public class Direction {
 
     @NotEmpty
     private String id;
 
     @NotNull
     @Valid
-    private List<@NotNull DirectionDto> directions;
+    private List<@NotNull Interval> intervals;
 
 }

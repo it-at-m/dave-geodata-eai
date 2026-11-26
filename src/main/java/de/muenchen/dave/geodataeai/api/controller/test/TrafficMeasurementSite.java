@@ -8,13 +8,13 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-public class TrafficMeasurementSiteDto {
+public class TrafficMeasurementSite {
 
     @NotEmpty
     private String id;
 
     @NotEmpty
     @Valid
-    private List<@NotNull CountingUnitDto> countingUnits;
+    private List<@NotNull CountingUnit> countingUnits;
 
 }

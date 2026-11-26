@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-public class IntervalDto {
+public class Interval {
 
     @NotNull
     private LocalDateTime start;
